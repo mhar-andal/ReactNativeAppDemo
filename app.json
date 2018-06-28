@@ -1,5 +1,22 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "DemoNativeApp",
+    "description": "A demo app",
+    "privacy": "public",
+    "sdkVersion": "27.0.0",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./assets/icons/icon.png",
+    "splash": {
+      "image": "./assets/icons/icon.png"
+    },
+    "packagerOpts": {
+      "assetExts": ["ttf", "mp4"],
+      "config": "rn-cli.config.js"
+    },
+    "ios": {
+      "supportsTablet": true
+    }
   }
 }
