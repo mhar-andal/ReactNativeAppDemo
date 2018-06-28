@@ -3,78 +3,52 @@ import { Dimensions, Image, Text, StyleSheet, View } from 'react-native';
 import Expo, { AppLoading, Asset, Font } from 'expo';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import { DrawerNavigator, DrawerItems } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
+
+import Login from './src/containers/Login';
+import Homepage from './src/containers/Homepage';
+import PersonalRecords from './src/containers/PersonalRecords';
+import TransactionHistory from './src/containers/TransactionHistory';
+import BankTransfers from './src/containers/BankTransfers';
+import InviteFriends from './src/containers/InviteFriends';
 
 import { Constants } from 'expo';
 import { Button } from 'react-native-elements'; // 0.19.1
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-// const CustomDrawerContentComponent = props => (
-//   <View style={{ flex: 1, backgroundColor: '#43484d' }}>
-//     <View
-//       style={{ marginTop: 40, justifyContent: 'center', alignItems: 'center' }}
-//     >
-//       <Image
-//         source={require('./src/images/logo.png')}
-//         style={{ width: SCREEN_WIDTH * 0.57 }}
-//         resizeMode="contain"
-//       />
-//     </View>
-//     <View style={{ marginLeft: 10 }}>
-//       <DrawerItems {...props} />
-//     </View>
-//   </View>
-// );
-
-const MainRoot = DrawerNavigator(
+const MainRoot = createBottomTabNavigator(
   {
-    Login: {
-      path: '/login',
-      screen: Login,
-    },
-    Profile: {
-      path: '/profile',
-      screen: Profile,
-    },
-    Lists: {
-      path: '/lists',
-      screen: Lists,
-    },
-    Components: {
-      path: '/components',
-      screen: Components,
-    },
-    Ratings: {
-      path: '/ratings',
-      screen: Ratings,
-    },
-    Pricing: {
-      path: '/pricing',
-      screen: Pricing,
-    },
-    Settings: {
-      path: '/settings',
-      screen: Settings,
-    },
+    Homepage: Homepage,
+    Records: PersonalRecords,
+    Transactions: TransactionHistory,
+    Banking: BankTransfers,
+    'Invite Friends': InviteFriends,
   },
   {
-    initialRouteName: 'Components',
-    contentOptions: {
-      activeTintColor: '#548ff7',
-      activeBackgroundColor: 'transparent',
-      inactiveTintColor: '#ffffff',
-      inactiveBackgroundColor: 'transparent',
-      labelStyle: {
-        fontSize: 15,
-        marginLeft: 0,
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Homepage') {
+          iconName = 'ios-home';
+        } else if (routeName === 'Records') {
+          iconName = 'md-person';
+        } else if (routeName === 'Banking') {
+          iconName = 'md-cash';
+        } else if (routeName === 'Transactions') {
+          iconName = 'md-paper';
+        } else if (routeName === 'Invite Friends') {
+          iconName = 'md-person-add';
+        }
+
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'black',
+      inactiveTintColor: 'gray',
     },
-    drawerWidth: SCREEN_WIDTH * 0.8,
-    contentComponent: CustomDrawerContentComponent,
-    drawerOpenRoute: 'DrawerOpen',
-    drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle',
   }
 );
 
@@ -107,8 +81,14 @@ export default class AppContainer extends Component {
     await Promise.all([...imageAssets, ...fontAssets]);
   }
 
+  logUserIn = () => {
+    this.setState({ authenticated: true });
+  };
+
   render() {
-    if (!this.state.isReady) {
+    const { authenticated, isReady } = this.state;
+
+    if (isReady) {
       return (
         <AppLoading
           startAsync={this._loadAssetsAsync}
@@ -117,15 +97,24 @@ export default class AppContainer extends Component {
         />
       );
     }
+
+    // if (!authenticated) {
+    //   return <Login logUserIn={this.logUserIn} />;
+    // }
+
+    return <MainRoot />;
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  titleContainer: {
+    height: 150,
+    backgroundColor: 'transparent',
     justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+  },
+  titleText: {
+    color: 'white',
+    fontSize: 30,
+    fontFamily: 'regular',
   },
 });

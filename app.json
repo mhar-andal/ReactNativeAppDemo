@@ -8,9 +8,9 @@
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/icon.png",
-    "splash": {
-      "image": "./assets/icons/icon.png"
-    },
+    // "splash": {
+    //   "image": "./assets/icons/icon.png"
+    // },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"],
       "config": "rn-cli.config.js"
