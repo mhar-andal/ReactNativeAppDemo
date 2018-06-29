@@ -17,11 +17,15 @@ import { Button } from 'react-native-elements'; // 0.19.1
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
+const ListsTabView = ({ navigation }) => (
+  <TransactionHistory banner="Lists" navigation={navigation} />
+);
+
 const MainRoot = createBottomTabNavigator(
   {
     Homepage: Homepage,
     Records: PersonalRecords,
-    Transactions: TransactionHistory,
+    Transactions: ListsTabView,
     Banking: BankTransfers,
     'Invite Friends': InviteFriends,
   },
@@ -98,9 +102,9 @@ export default class AppContainer extends Component {
       );
     }
 
-    // if (!authenticated) {
-    //   return <Login logUserIn={this.logUserIn} />;
-    // }
+    if (!authenticated) {
+      return <Login logUserIn={this.logUserIn} />;
+    }
 
     return <MainRoot />;
   }

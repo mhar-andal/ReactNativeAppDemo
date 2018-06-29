@@ -10,12 +10,20 @@ export default class BankTransfers extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ width: '70%' }}>
+            <Text style={{ textAlign: 'center' }}>
+              Uh Oh! Looks like you haven't setup your, we can help with that.
+            </Text>
+          </View>
+        </View>
         <Button
           raised
-          icon={{ name: 'home', size: 32 }}
-          buttonStyle={{ backgroundColor: '#ff4f00', borderRadius: 10 }}
+          buttonStyle={
+            { marginTop: 10, backgroundColor: '#065ea2', borderRadius: 10 } // icon={{ name: 'home', size: 32 }}
+          }
           textStyle={{ textAlign: 'center' }}
-          title={`Welcome to\nBank Transfers`}
+          title={`Setup Bank Account`}
         />
       </View>
     );
